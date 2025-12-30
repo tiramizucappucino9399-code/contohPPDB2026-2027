@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login PPDB RA AL IRSYAD</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background: linear-gradient(180deg, #87CEEB 0%, #E0F7FA 100%); min-height: 100vh; overflow: hidden; }
+        .cloud { position: absolute; background: white; border-radius: 100px; filter: blur(5px); opacity: 0.8; z-index: -1; animation: move 25s linear infinite; }
+        @keyframes move { from { transform: translateX(-200px); } to { transform: translateX(100vw); } }
+    </style>
+</head>
+<body class="flex items-center justify-center p-6">
+    <div class="cloud w-32 h-12 top-10 left-10"></div>
+    <div class="cloud w-48 h-16 top-40 left-1/3" style="animation-duration: 35s;"></div>
+    <div class="cloud w-40 h-14 bottom-20 right-10" style="animation-duration: 20s;"></div>
+
+    <div class="bg-white/90 backdrop-blur-md p-8 rounded-[40px] shadow-2xl w-full max-w-md border-4 border-white text-center">
+        <div class="mb-6">
+            <div class="text-5xl mb-2">☁️</div>
+            <h1 class="text-2xl font-black text-sky-600 uppercase tracking-tighter">PPDB ONLINE</h1>
+            <p class="text-gray-500 font-bold">RA AL IRSYAD AL ISLAMIYYAH</p>
+            <p class="text-xs text-gray-400 italic">Tahun Ajaran 2026-2027</p>
+        </div>
+
+        <form onsubmit="event.preventDefault(); window.location.href='dashboard.html'" class="space-y-4 text-left">
+            <div>
+                <label class="block text-sky-700 font-semibold mb-1 ml-4 text-sm">Username</label>
+                <input type="text" class="w-full px-5 py-3 rounded-full border-2 border-sky-100 outline-none focus:border-sky-400 shadow-sm transition" placeholder="Masukkan Nama/Email" required>
+            </div>
+            <div>
+                <label class="block text-sky-700 font-semibold mb-1 ml-4 text-sm">Password</label>
+                <input type="password" class="w-full px-5 py-3 rounded-full border-2 border-sky-100 outline-none focus:border-sky-400 shadow-sm transition" placeholder="••••••••" required>
+            </div>
+            <button type="submit" class="w-full bg-sky-500 hover:bg-sky-600 text-white font-bold py-3 rounded-full shadow-lg transition transform hover:scale-105 active:scale-95">
+                Masuk ke Aplikasi ☁️
+            </button>
+        </form>
+        <p class="mt-6 text-[10px] text-gray-400 uppercase tracking-widest font-bold">Panitia PPDB 2026</p>
+    </div>
+</body>
+</html>
