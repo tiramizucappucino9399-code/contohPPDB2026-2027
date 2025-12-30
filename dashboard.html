@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard PPDB RA AL IRSYAD</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background-color: #F0F9FF; }
+        .glass-card { background: rgba(255, 255, 255, 0.9); border-radius: 24px; box-shadow: 0 8px 32px rgba(0, 150, 255, 0.05); border: 1px solid white; }
+        input, select, textarea { border: 1px solid #bae6fd !important; padding: 0.6rem; border-radius: 10px; outline: none; width: 100%; transition: 0.2s; font-size: 14px; }
+        input:focus { border-color: #38bdf8 !important; box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.1); }
+        label { font-size: 11px; font-weight: 700; color: #0369a1; margin-bottom: 4px; display: block; text-transform: uppercase; }
+        
+        /* Animasi Sambutan */
+        #welcome-overlay {
+            position: fixed; inset: 0; background: linear-gradient(135deg, #0ea5e9, #38bdf8);
+            display: flex; align-items: center; justify-content: center; z-index: 100;
+            color: white; text-align: center; transition: opacity 1s ease-out, visibility 1s;
+        }
+        .welcome-text { animation: bounceIn 1.5s ease; p: 2rem; }
+        @keyframes bounceIn {
+            0% { opacity: 0; transform: scale(0.3); }
+            50% { opacity: 1; transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div id="welcome-overlay">
+        <div class="welcome-text">
+            <div class="text-7xl mb-4">☁️</div>
+            <h1 class="text-3xl md:text-5xl font-black leading-tight">
+                Selamat Datang di <br>
+                <span class="text-yellow-300 italic">Pendataan Murid Baru</span> <br>
+                RA AL IRSYAD AL ISLAMIYYAH <br>
+                TAHUN AJARAN 2026-2027
+            </h1>
+            <p class="mt-6 text-sky-100 animate-pulse tracking-widest text-sm">MENGHUBUNGKAN DATA...</p>
+        </div>
+    </div>
+
+    <div class="max-w-6xl mx-auto">
+        <div class="flex flex-col md:flex-row justify-between items-center mb-8 glass-card p-6 gap-4">
+            <div class="text-center md:text-left">
+                <h2 class="text-2xl font-black text-sky-600 leading-none">RA AL IRSYAD AL ISLAMIYYAH</h2>
+                <p class="text-[10px] text-gray-400 font-bold mt-1 tracking-widest">FORMULIR PENDAFTARAN PESERTA DIDIK BARU 2026-2027</p>
+            </div>
+            <a href="index.html" class="bg-red-500 hover:bg-red-600 text-white px-8 py-2 rounded-full text-xs font-bold shadow-lg transition">KELUAR</a>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <div class="lg:col-span-2 space-y-6">
+                <form id="ppdbForm" class="glass-card p-8 border-t-8 border-sky-400">
+                    
+                    <div class="mb-10">
+                        <h3 class="text-sky-500 font-black mb-6 flex items-center gap-2 border-b pb-2 italic">
+                            <span>01</span> DATA IDENTITAS SISWA
+                        </h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div><label>KELAS</label><select id="f_kelas" required><option value="">- Pilih -</option><option>1. KB</option><option>2. RA</option></select></div>
+                            <div><label>NO INDUK</label><input type="text" id="f_no_induk" placeholder="Diisi sekolah"></div>
+                            <div><label>NIS EMIS</label><input type="text" id="f_nis_emis"></div>
+                            <div><label class="text-red-500">NIK (PENTING/ANTI-GANDA)</label><input type="number" id="f_nik" required placeholder="16 Digit NIK"></div>
+                            <div class="md:col-span-2"><label>NAMA PANGGILAN</label><input type="text" id="f_nama" required></div>
+                            <div><label>JENIS KELAMIN</label><select id="f_jk"><option value="L">Laki-laki (L)</option><option value="P">Perempuan (P)</option></select></div>
+                            <div><label>TEMPAT LAHIR</label><input type="text" id="f_tmpt_lahir"></div>
+                            <div><label>TANGGAL LAHIR</label><input type="date" id="f_tgl_lahir" onchange="hitungUsia()" required></div>
+                            <div><label class="text-sky-600">USIA (OTOMATIS)</label><input type="text" id="f_usia" readonly class="bg-sky-50 font-bold text-sky-600"></div>
+                            <div><label>ANAK KE-</label><input type="number" id="f_anak_ke"></div>
+                            <div><label>DARI BERSAUDARA</label><input type="number" id="f_saudara"></div>
+                            <div class="md:col-span-2"><label>NO. KARTU KELUARGA (KK)</label><input type="text" id="f_kk"></div>
+                        </div>
+                    </div>
+
+                    <div class="mb-10">
+                        <h3 class="text-sky-500 font-black mb-6 flex items-center gap-2 border-b pb-2 italic">
+                            <span>02</span> DATA ORANG TUA / WALI
+                        </h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="bg-blue-50/50 p-4 rounded-2xl border border-blue-100 space-y-3">
+                                <p class="text-xs font-black text-blue-600 underline mb-2">DATA AYAH</p>
+                                <div><label>NAMA AYAH</label><input type="text" id="f_ayah_nama"></div>
+                                <div><label>NIK AYAH</label><input type="text" id="f_ayah_nik"></div>
+                                <div><label>TEMPAT LAHIR</label><input type="text" id="f_ayah_tmpt"></div>
+                                <div><label>TAHUN LAHIR</label><input type="number" id="f_ayah_thn"></div>
+                                <div><label>PENDIDIKAN AYAH</label><input type="text" id="f_ayah_pdk"></div>
+                                <div><label>PEKERJAAN AYAH</label><input type="text" id="f_ayah_pkrj"></div>
+                            </div>
+                            <div class="bg-pink-50/50 p-4 rounded-2xl border border-pink-100 space-y-3">
+                                <p class="text-xs font-black text-pink-600 underline mb-2">DATA IBU</p>
+                                <div><label>NAMA IBU</label><input type="text" id="f_ibu_nama"></div>
+                                <div><label>NIK IBU</label><input type="text" id="f_ibu_nik"></div>
+                                <div><label>TEMPAT LAHIR</label><input type="text" id="f_ibu_tmpt"></div>
+                                <div><label>TAHUN LAHIR</label><input type="number" id="f_ibu_thn"></div>
+                                <div><label>PENDIDIKAN IBU</label><input type="text" id="f_ibu_pdk"></div>
+                                <div><label>PEKERJAAN IBU</label><input type="text" id="f_ibu_pkrj"></div>
+                            </div>
+                        </div>
+                        <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div><label>PENGHASILAN ORANG TUA</label><input type="text" id="f_hasil" placeholder="Contoh: 3.000.000"></div>
+                            <div><label class="text-orange-600 font-black">NO. TELEPON / HP (WA)</label><input type="text" id="f_hp" required placeholder="Wajib diisi"></div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-sky-500 font-black mb-6 flex items-center gap-2 border-b pb-2 italic">
+                            <span>03</span> DATA ALAMAT DOMISILI
+                        </h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="md:col-span-2"><label>ALAMAT JALAN / DUKUH</label><input type="text" id="f_alamat"></div>
+                            <div><label>DESA/KELURAHAN</label><input type="text" id="f_desa"></div>
+                            <div><label>KECAMATAN</label><input type="text" id="f_kec"></div>
+                            <div><label>KOTA/KABUPATEN</label><input type="text" id="f_kota"></div>
+                            <div><label>KODE POS</label><input type="text" id="f_pos"></div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="w-full mt-10 bg-sky-500 hover:bg-sky-600 text-white font-black py-4 rounded-2xl shadow-xl transition transform active:scale-95 shadow-sky-200">
+                        SIMPAN DATA PENDAFTARAN ☁️
+                    </button>
+                </form>
+            </div>
+
+            <div class="space-y-6">
+                <div class="glass-card p-6 border-t-8 border-green-400 sticky top-8">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="font-black text-gray-700 italic">📋 DATA TERINPUT</h3>
+                        <span id="badge_count" class="bg-green-500 text-white text-[10px] px-3 py-1 rounded-full font-bold">0</span>
+                    </div>
+                    
+                    <div id="container_data" class="space-y-4 max-h-[600px] overflow-y-auto pr-2">
+                        <div id="empty_msg" class="text-center py-10 text-gray-400 text-xs italic">Data masih kosong, silakan isi formulir.</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // Logic Overlay Sambutan
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const overlay = document.getElementById('welcome-overlay');
+                overlay.style.opacity = '0';
+                setTimeout(() => overlay.style.visibility = 'hidden', 1000);
+            }, 3000); // 3 detik
+        });
+
+        let dbSiswa = [];
+
+        function hitungUsia() {
+            const tglVal = document.getElementById('f_tgl_lahir').value;
+            if(!tglVal) return;
+            const lahir = new Date(tglVal);
+            const sekarang = new Date();
+            let thn = sekarang.getFullYear() - lahir.getFullYear();
+            let bln = sekarang.getMonth() - lahir.getMonth();
+            if (bln < 0 || (bln === 0 && sekarang.getDate() < lahir.getDate())) { thn--; bln += 12; }
+            document.getElementById('f_usia').value = `${thn} Thn ${bln} Bln`;
+        }
+
+        document.getElementById('ppdbForm').onsubmit = function(e) {
+            e.preventDefault();
+            const nik = document.getElementById('f_nik').value;
+
+            // CEK GANDA
+            if (dbSiswa.some(s => s.nik === nik)) {
+                alert("⚠️ DATA GANDA! NIK " + nik + " sudah ada dalam daftar. Mohon gunakan NIK lain.");
+                return;
+            }
+
+            // SIMPAN DATA KE ARRAY
+            const data = {
+                nik: nik,
+                nama: document.getElementById('f_nama').value,
+                kelas: document.getElementById('f_kelas').value,
+                usia: document.getElementById('f_usia').value,
+                hp: document.getElementById('f_hp').value
+            };
+
+            dbSiswa.push(data);
+            renderData();
+            this.reset();
+            document.getElementById('f_usia').value = "";
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            alert("✅ Sukses! Data pendaftaran " + data.nama + " telah disimpan.");
+        };
+
+        function renderData() {
+            const container = document.getElementById('container_data');
+            const badge = document.getElementById('badge_count');
+            container.innerHTML = "";
+            badge.innerText = dbSiswa.length;
+
+            if(dbSiswa.length === 0) {
+                container.innerHTML = '<div class="text-center py-10 text-gray-400 text-xs italic">Data masih kosong.</div>';
+                return;
+            }
+
+            dbSiswa.forEach((s, index) => {
+                const card = document.createElement('div');
+                card.className = "p-4 bg-white border-l-4 border-sky-400 rounded-xl shadow-sm hover:shadow-md transition";
+                card.innerHTML = `
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-[9px] font-black text-sky-500 uppercase">${s.kelas}</p>
+                            <h4 class="font-bold text-gray-800 uppercase text-sm">${s.nama}</h4>
+                            <p class="text-[10px] text-gray-500">NIK: ${s.nik}</p>
+                            <p class="text-[10px] text-gray-700 font-bold mt-1">Usia: ${s.usia}</p>
+                        </div>
+                        <button onclick="hapus(${index})" class="text-red-400 text-[10px] hover:text-red-600 font-bold">HAPUS</button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function hapus(i) {
+            if(confirm("Apakah Anda yakin ingin menghapus data ini?")) {
+                dbSiswa.splice(i, 1);
+                renderData();
+            }
+        }
+    </script>
+</body>
+</html>
